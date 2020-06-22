@@ -2,7 +2,7 @@
 
 #### Introduction to React
 
-<Objectives
+> Objectives
 
 - By the end of this chapter, you should be able to:
 - Discuss the history of React.js
@@ -86,3 +86,13 @@ class App extends React.Component {
 render is a method that our component class expects to receive because it extends from React.Component.
 
 <hr>
+
+ #### An Introduction to Props
+ > props :can think of these as "properties" for our components
+
+  learn about :
+  - add css 
+  - add value in props
+  - use ClassName in jsx  when  related with css file
+
+ #### Conditional JSX
