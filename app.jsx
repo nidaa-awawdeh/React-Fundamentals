@@ -1,16 +1,23 @@
 class App extends React.Component {
   render() {
-    var style = { color: 'red' };
+    var name = this.props.name;
+    if (name === 'Tim') {
+      name = 'favorite instructor';
+    } else if (name === 'Matt' || name === 'Elie') {
+      name = 'very solid instructor';
+    }
     return (
       <div>
-        <h1 style={style}>Hello {this.props.name}!</h1>
-        {/* <p>
-                    This JSX will not be rendered because it is commented out using JavaScript
-                 </p> */}
-            <h2 className="React">Nidaa </h2>
+        <p>{this.props.name}</p>
+        <p>{name}</p>
+        {name === 'student' ? (
+          <h1>Good job on the course so far!</h1>
+        ) : (
+          <h1>Hello, {name}!</h1>
+        )}
       </div>
     );
   }
 }
 
-ReactDOM.render(<App name="student" />, document.getElementById('app'));
+ReactDOM.render(<App name="Moxie" />, document.getElementById('app'));
