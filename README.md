@@ -96,3 +96,156 @@ render is a method that our component class expects to receive because it extend
   - use ClassName in jsx  when  related with css file
 
  #### Conditional JSX
+ ~~~
+ class App extends React.Component {
+  render() {
+    var name = this.props.name;
+    if (name === 'Tim') {
+      name = 'favorite instructor';
+    } else if (name === 'Matt' || name === 'Elie') {
+      name = 'very solid instructor';
+    }
+    return (
+      <div>
+        <p>{this.props.name}</p>
+        <p>{name}</p>
+        {name === 'student' ? (
+          <h1>Good job on the course so far!</h1>
+        ) : (
+          <h1>Hello, {name}!</h1>
+        )}
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App name="Moxie" />, document.getElementById('app'));
+~~~
+> the out put in Conditional JSX  is  Moxie Moxie hello Moxie
+
+ #### Using Babel In Production
+ - websites are rather slow
+ - The reason for the slow down is that we are transpiling our code on the client side 
+ - the browser is downloading babel and doing the work of transpiling from JSX to plain JavaScript
+ - We need a better tool for transpiling our code
+ -  we need to make sure that transpiling doesn't happen on the client side
+ - Webpack is going to help us transpile our JSX
+ - Webpack is a very helpful tool, but it also has a very steep learning curve.
+ -
+
+ ## JSX Exercises:
+  > link: https://github.com/rithmschool/react_exercises/tree/master/01-introduction-to-react/jsx-and-babel
+ ###  Solutions  part 1 in folder name part1
+
+<hr>
+
+ # Webpack 
+ ### Objectives
+ - Explain what webpack and babel are useful for
+ - Create an application using create-react-app
+ - Configure applications using webpack
+
+ #### Introduction To Webpack
+  what is webpack? defined as a module bundler <br>
+  Ultimately the goal of a build tool is to take all of your files (JavaScript, CSS, etc), then combine and minify those files into a single JavaScript file and a single CSS file<br>
+  When files are combined and minified, the user of your application can download the website faster. <br>
+using webpack to transpile the import syntax into something the browser can understand. <br>
+
+
+#### Create React App
+- **create-react-app**
+Create React app is a command line tool that will generate a very well setup React application, which includes all of the configuration for webpack. <br>
+- **create-react-app** uses Node.js to manage JavaScript dependencies
+ - **npm install -g create-react-app**
+  You will only need to run this one time on your machine <br>
+
+- **create-react-app my-app**
+- **cd my-app/**
+- **npm start**
+
+The most important files for our purposes are the:- <br>
+- index.js,
+. If you would like to change the component you render, you would look in index.js 
+- public/index.html 
+If you need to change anything about your html, you would do it in public/index.html<br>
+- App.js
+The App.js file is the component that is being rendered in index.js <br>
+
+#### Essential Files For Webpack
+npm's package.json
+Since we will be using npm which is the package manager for node.js to fetch packages (react, webpack etc). We will want to create a package.json <br>
+ A package.json is a file that describes the application we are building and lists all of the dependencies and development dependencies (which are not installed in production).
+
+- npm init -y
+
+ #### Installing dependencies :
+  - npm install -g webpack
+  - npm install --save-dev babel-core babel-loader \
+                       babel-preset-es2015
+
+  - The **--save-dev** flag will save the names and versions of these modules to the package.json file in a section called devDependencies  .
+
+  - **devDependencies**  are dependencies that you need for development, but not production code
+  - **npm install** install all dependencies
+
+
+  #### Creating our first webpack.config.js 
+  > webpack.config.js :
+  what goes inside. <br>
+
+  - context
+  - entry
+  - output
+  - devtool
+  - module
+
+> webpack.config.js
+  ~~~
+  module.exports = {
+  // The absolute path to your project
+  context: __dirname + "/",
+  // the entry point for our app
+  entry: "./main.js",
+  // where to put the compiled output (what our script tag will link to)
+  output: {
+    // where does it go?
+    path: __dirname + "/",
+    // what is the file called?
+    filename: "bundle.js"
+  },
+  // how can we debug our bundle? for production, we can use 'source-map'
+  devtool: "eval",
+  module: {
+    rules: [
+      {
+        //Check for all js files
+        test: /\.js$/,
+        // Don't include node_modules directory in the search for js files
+        exclude: /node_modules/,
+        // Use the babel-loader plugin to transpile the javascript
+        use: [
+          {
+            loader: "babel-loader",
+            options: { presets: ["es2015"] }
+          }
+        ]
+      }
+    ]
+  }
+};
+~~~
+###### Babel Configs in .babelrc
+Since we have included babel as a loader, there is one more file that we need to configure. This file is called a .babelrc and it specifies which babel "presets" or plugins we want to use. The one we will be using is for ES2015. This allows us to use ES2015 modules, which we will see in the next section! Let's create a .babelrc file, it's quite small, but essential. <br>
+~~~
+{
+  "presets": ["es2015"]
+}
+~~~
+<hr>
+
+# Using webpack with React
+- npm install --save-dev babel-preset-react react react-dom
+
+  
+
+
