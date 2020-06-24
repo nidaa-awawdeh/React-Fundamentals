@@ -493,7 +493,13 @@ result = doubleValues(arr1);
  <hr>
 
  # Pure Functions and setState:
- 
+
+
+ ## Functions that call setState should be pure functions. :
+
+### setState is Asynchronous : 
+- setState could be called multiple times before the state is actually updated and the DOM is re-rendered.
+
 
 
 
