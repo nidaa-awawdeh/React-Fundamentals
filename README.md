@@ -245,6 +245,267 @@ Since we have included babel as a loader, there is one more file that we need to
 
 # Using webpack with React
 - npm install --save-dev babel-preset-react react react-dom
+<hr>
+
+ #### { Props. }
+  > Objectives
+- Define what `props` is and how it is used with React
+- Describe what the `children` prop is used for
+- Use `PropTypes` and `defaultProps`
+
+## Props
+- Often a prop may be passed down from a parent component to a child
+- The most important thing to understand about props are that they are immutable
+- Props can not be changed from within the component itself
+- You should not be trying to change the value of a prop
+- To make dynamic content that can changed based on input
+- To make dynamic content that can changed based on input use  state 
+
+### React Component: Our First Props Example
+
+
+#### Children
+A special property that all react components have is called children. The children of a component is all of the JSX inside of the component. For example, think of html tags: <br>
+
+```
+<div>
+   <p>I am a child element of the div</p>
+   <p>I am another child of the div</p>
+</div>
+```
+ ## Prop Validation with PropTypes :
+  - One way to describe the props that a component accepts is PropTypes.
+  -  Using PropTypes also has the added benefit of doing some type checking (type checking asserts that the data that you are getting is a certain type.
+ - **npm install prop-types**
+
+```
+import PropTypes from "prop-types";
+
+class Greeting extends React.Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+
+Greeting.propTypes = {
+  name: PropTypes.string
+};
+```
+##### Composing Components With Props
+```
+import React, { Component } from "react";
+
+export default class App extends Component {
+  render() {
+    const instList = this.props.instructors.map(instructor => {
+      return (
+        <li key={instructor.id}>
+          <h2>{instructor.name}</h2>
+          <img src={instructor.avatar} alt={instructor.name} />
+          <p>
+            <strong>Hobby:</strong> {instructor.hobby}
+          </p>
+        </li>
+      );
+    });
+    return (
+      <div>
+        <h1>Instructors</h1>
+        <ul>{instList}</ul>
+      </div>
+    );
+  }
+}
+
+// Specifies the default values for props:
+App.defaultProps = {
+  instructors: [
+    {
+      id: 0,
+      name: "Michael",
+      avatar:
+        "https://www.rithmschool.com/content/react_fundamentals/michael.jpg",
+      hobby: "hiking"
+    },
+    {
+      id: 1,
+      name: "Matt",
+      avatar: "https://www.rithmschool.com/content/react_fundamentals/matt.jpg",
+      hobby: "math"
+    },
+    {
+      id: 2,
+      name: "Elie",
+      avatar: "https://www.rithmschool.com/content/react_fundamentals/elie.jpg",
+      hobby: "cello"
+    },
+    {
+      id: 3,
+      name: "Whiskey",
+      avatar:
+        "https://www.rithmschool.com/content/react_fundamentals/whiskey.jpg",
+      hobby: "napping"
+    }
+  ]
+};
+```
+- key is a special prop in react that helps react render our components more intelligently
+- The key should be set to something that uniquely identifies your data in some list of data. 
+- the key will be some id that is coming from the server.
+
+
+#### Refactoring Our Component :
+ <hr>
+
+## State
+> Objectives
+- Describe how props and state are different
+- Initialize state in a React component
+- Describe what a pure function is and how it applies to setState
+- Pass state down from a parent component to a child component via props
+
+### State
+ - when building dynamic web applications, we often want to be able to change our data.
+ - In React, we store dynamic data as state in the app.
+ - The reason why people are wary of including too much state in your application is that it adds complexity to your application
+ - The more state you have to manage, the more difficult it becomes to reason about your application.
+
+ #### Important State Concepts:
+ - State should be owned by only one component
+ - When state is changed inside of a component,he `render` method will eventually be invoked by React
+- he `render` method will eventually be invoked by React
+- This concept will lead to some rules we'll discuss about how state can change.
+
+##### Initializing state:
+
+```
+import React, { Component } from "react";
+import { render } from "react-dom";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "Michael"
+    };
+  }
+  render() {
+    return (
+      <div>
+        <h2>Our state is {this.state.name}</h2>
+      </div>
+    );
+  }
+}
+
+render(<App />, document.getElementById("root"));
+``` 
+-  The `constructor` does the setup for your component (and more generally a constructor function sets up a class).
+-  In React, whenever you have a constructor, you will want to pass in props as a parameter and on the first line of the constructor, 
+
+- you should called `super(props)`; - React will yell at you if you don't.
+- after calling super on the props, we set up a state object for our App component
+-  The state object is simply a normal JavaScript object.
+
+
+```
+import React, { Component } from "react";
+import { render } from "react-dom";
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "Michael"
+    };
+
+    setTimeout(this.changeName.bind(this), 5000);
+  }
+
+  changeName = () => {
+    this.setState({ name: "Whiskey" });
+  };
+
+  render() {
+    return (
+      <div>
+        <h2>Our state is {this.state.name}</h2>
+      </div>
+    );
+  }
+}
+
+render(<App />, document.getElementById("root"));
+```
+-  On our component class, we are creating a function, `changeName`
+- that will call `setState` which will change the name property of our state object to Whiskey
+- In the constructor, we have a `setTimeout` that will invoke changeName for us in 5 seconds (5000ms)
+- The call to setState will trigger another call to render which will return new JSX which has this.state.name equal to Whiskey.
+- Now that we have seen `setState`, we need to take a moment to back up and review some functional programming concepts.
+
+
+ <hr>
+ <hr>
+
+ # Functional Programming: Pure Functions
+
+ > A pure function is a foundational concept in functional programing. 
+
+ `The idea is that a function when invoked should not have any side effects and it should not modify the parameters it was given`
+  - should not have any side effects
+  -  should not modify the parameters it was given
+
+###  an impure function
+One rule of thumb when testing for `a pure function` is
+- to ask yourself, can the function be run multiple times 
+- will I still get the same result
+
+```
+function doubleValues(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = arr[i] * 2;
+  }
+}
+const arr1 = [2, 4, 5];
+doubleValues(arr1);
+doubleValues(arr1);
+```
+
+### an example of a pure function:
+```
+function doubleValues(arr) {
+  const result = [];
+  for (let i = 0; i < arr.length; i++) {
+    res.push(arr[i] * 2);
+  }
+  return result;
+}
+
+const arr1 = [2, 4, 5];
+const result = doubleValues(arr1);
+result = doubleValues(arr1);
+```
+> a pure function.
+-  get the same result given the same input,
+- no matter how many times the function is run
+- Since our input is not modified and the function has no other side effects
+ 
+ <hr>
+
+ # Pure Functions and setState:
+
+
+ ## Functions that call setState should be pure functions. :
+
+### setState is Asynchronous : 
+- setState could be called multiple times before the state is actually updated and the DOM is re-rendered.
+
+
+
+
+
+
+
 
   
 
